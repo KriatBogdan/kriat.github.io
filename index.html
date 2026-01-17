@@ -1,7 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>D&D Кейсы</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<h1>САЙТ РАБОТАЕТ</h1>
-<a href="case.html?case=mage">Открыть кейс</a>
+
+<h1>🎲 Магические кейсы</h1>
+<p>Выбери кейс:</p>
+
+<div class="cases">
+  <div class="case-card" onclick="openCase('mage')">
+    <h2>🔮 Кейс Мага</h2>
+    <p>Артефакты, зелья, магия</p>
+  </div>
+
+  <div class="case-card" onclick="openCase('warrior')">
+    <h2>⚔️ Кейс Воина</h2>
+    <p>Оружие, броня, реликвии</p>
+  </div>
+</div>
+
+<script>
+function openCase(type) {
+  window.location.href = "case.html?case=" + type;
+}
+</script>
+
 </body>
 </html>

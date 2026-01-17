@@ -1,42 +1,53 @@
-const loot = {
-  common: ["Зелье лечения", "Монета возврата", "Факел вечного огня"],
-  uncommon: ["Сапоги тихого шага", "Жезл искр", "Плащ карманов"],
-  rare: ["Оружие +1", "Кольцо защиты", "Плащ теней"],
-  epic: ["Плащ полёта", "Разумный клинок", "Сердце феникса"],
-  legendary: ["Клинок, убивший бога", "Куб времени", "Корона стихий"]
+const cases = {
+  mage: {
+    name: "🔮 Кейс Мага",
+    items: [
+      { name: "Зелье маны", rarity: "Обычный" },
+      { name: "Свиток огненного шара", rarity: "Необычный" },
+      { name: "Жезл искр", rarity: "Необычный" },
+      { name: "Кольцо мага", rarity: "Редкий" },
+      { name: "Гримуар древних", rarity: "Очень редкий" },
+      { name: "Сфера архимага", rarity: "Легендарный" }
+    ]
+  },
+
+  warrior: {
+    name: "⚔️ Кейс Воина",
+    items: [
+      { name: "Зелье лечения", rarity: "Обычный" },
+      { name: "Боевой топор", rarity: "Необычный" },
+      { name: "Щит стойкости", rarity: "Редкий" },
+      { name: "Доспех героя", rarity: "Очень редкий" },
+      { name: "Клинок королей", rarity: "Легендарный" }
+    ]
+  }
 };
 
-function rollRarity() {
-  let roll = Math.random() * 100;
+const urlParams = new URLSearchParams(window.location.search);
+const caseKey = urlParams.get("case");
+const selectedCase = cases[caseKey];
 
-  if (roll < 50) return "common";
-  if (roll < 75) return "uncommon";
-  if (roll < 90) return "rare";
-  if (roll < 98) return "epic";
-  return "legendary";
+if (selectedCase) {
+  document.getElementById("caseTitle").textContent = selectedCase.name;
+}
+
+function randomItem() {
+  return selectedCase.items[Math.floor(Math.random() * selectedCase.items.length)];
 }
 
 function openCase() {
-  const resultDiv = document.getElementById("result");
-  resultDiv.textContent = "🎰 Крутится...";
-
+  const result = document.getElementById("result");
   let spins = 15;
+
   let interval = setInterval(() => {
-    let rarity = rollRarity();
-    let item = loot[rarity][Math.floor(Math.random() * loot[rarity].length)];
-    resultDiv.textContent = item;
+    const item = randomItem();
+    result.textContent = item.name;
     spins--;
+
     if (spins <= 0) {
       clearInterval(interval);
-      finalizeDrop();
+      const finalItem = randomItem();
+      result.textContent = `✨ ${finalItem.name} [${finalItem.rarity}]`;
     }
   }, 100);
 }
-
-function finalizeDrop() {
-  let rarity = rollRarity();
-  let item = loot[rarity][Math.floor(Math.random() * loot[rarity].length)];
-  document.getElementById("result").textContent =
-    "✨ " + item + " (" + rarity + ")";
-}
-
